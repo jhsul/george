@@ -15,8 +15,8 @@ GEORGE is basically a static site whose build system consists of the following s
 2. This data is restructured and stored in a MongoDB database.
 3. The GEORGE frontend is generated from React code using [Next.js static site generation (SSG)](https://nextjs.org/docs/basic-features/data-fetching/get-static-props)
 
-![](public/pipeline.png)
-
-<p align="center"><i>Figure 1: GEORGE build pipeline</i></p>
+<p align="center">
+<img src="public/pipeline.png"/>
+<i>Figure 1: GEORGE build pipeline</i></p>
 
 Notice that since the site is 100% statically generated, there is no API for loading course report data. If you are interested in getting access to this data, email me.
