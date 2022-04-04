@@ -1,0 +1,53 @@
+@import "../node_modules/bootstrap/scss/functions";
+@import "../node_modules/bootstrap/scss/variables";
+
+// OVERWRITE BOOTSTRAP STUFF IN HERE
+hr {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+@import "../node_modules/bootstrap/scss/bootstrap";
+html,
+body {
+  background-color: #eaeaea;
+}
+
+// Navigation bar
+.nav {
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+  ///border: 1px solid red;
+}
+
+.nav-collection {
+  display: flex;
+  margin: 5px;
+}
+
+.nav-item {
+  margin: 5px;
+}
+
+// Homescreen search bar
+.search-container {
+  width: 100%;
+  //border: 1px solid green;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 100px;
+}
+
+.search {
+  //width: 500px;
+  display: flex;
+  border-radius: 10px;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  padding: 50px;
+}
