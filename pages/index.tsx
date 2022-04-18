@@ -11,11 +11,11 @@ import {
 } from "react";
 
 import { Course, Professor, SearchResult } from "../types/main";
-import { getDb } from "../util/db";
 
 import _ from "lodash";
 
 import wpiLogo from "../public/wpi_logo.png";
+import { useRouter } from "next/router";
 
 interface HomeProps {
   professors: Professor[];
@@ -65,7 +65,8 @@ const Home: NextPage<HomeProps> = ({ professors, courses }) => {
             <div className="vbox logo">
               <div style={{ flex: 1 }}></div>
               <p className="logo-text">
-                <b>G</b>ompei&aposs
+                <b>G</b>
+                {"ompei's"}
               </p>
               <p className="logo-text">
                 <b>E</b>ternal
@@ -74,7 +75,7 @@ const Home: NextPage<HomeProps> = ({ professors, courses }) => {
                 <b>O</b>nline hub for
               </p>
               <p className="logo-text">
-                <b>R</b>reports
+                <b>R</b>eports
               </p>
               <p className="logo-text">
                 <b>G</b>rades
@@ -96,7 +97,7 @@ const Home: NextPage<HomeProps> = ({ professors, courses }) => {
 
             <div className="suggestions-box">
               {searchResults.map((r) => (
-                <Suggestion key={r._id} results={r} />
+                <Suggestion key={r._id} result={r} />
               ))}
             </div>
           </div>
@@ -110,25 +111,29 @@ const Home: NextPage<HomeProps> = ({ professors, courses }) => {
   );
 };
 
-const Suggestion: FunctionComponent<{ results: SearchResult }> = ({
-  results,
+const Suggestion: FunctionComponent<{ result: SearchResult }> = ({
+  result,
 }) => {
+  const router = useRouter();
+
+  const suggestionClick = () => {
+    console.log(result);
+    router.push(`/${result.type}/${result._id}`);
+  };
+
   return (
-    <div className="suggestion">
-      <div className="hbox">
-        <div className="vbox">
-          <b>{results.type}</b>
-          <p>{results.name}</p>
-        </div>
+    <div className="suggestion" onClick={suggestionClick}>
+      <div className="hbox" style={{ alignItems: "center" }}>
+        <div>{result.name}</div>
         <div style={{ flex: 1 }}></div>
-        <div>{results.score.toFixed(2)}</div>
+        <div>{result.type === "professor" ? "👨‍🎓" : "📚"}</div>
       </div>
     </div>
   );
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  console.log("Getting data for frontpage search");
+  //console.log("Getting data for frontpage search");
   /*
   const db = await getDb();
 

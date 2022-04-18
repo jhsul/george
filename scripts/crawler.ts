@@ -184,13 +184,13 @@ const getProfessor = async (
 
   let actualProfessorId = professorId;
   const duplicateId = (
-    await db.collection("professors").findOne({ _name: professorName })
+    await db.collection("professors").findOne({ name: professorName })
   )?._id.toString();
 
   if (duplicateId) {
     console.log(`${professorName} already exists`);
     console.log(duplicateId, professorId);
-    if (duplicateId === professorId) {
+    if (duplicateId !== professorId) {
       console.log("ASSIGNING DUPLICATE ID");
       console.log(professorId, duplicateId);
 

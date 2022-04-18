@@ -6,45 +6,44 @@ import {
 } from "next";
 import { ParsedUrlQuery } from "querystring";
 import SectionComponent from "../../components/Section";
-import { Professor, Section } from "../../types/main";
+import Sections from "../../components/Sections";
+import { Course, Professor, Section } from "../../types/main";
 import { getDb } from "../../util/db";
 
-interface ProfessorPageProps {
-  professor: Professor;
+interface CoursePageProps {
+  course: Course;
   sections: Section[];
 }
 
-const Professor: NextPage<ProfessorPageProps> = ({ professor, sections }) => {
+const Course: NextPage<CoursePageProps> = ({ course, sections }) => {
   return (
     <div>
-      <h1 className="display-1">{professor.name}</h1>
-      <p>{JSON.stringify(professor, null, 2)}</p>
+      <h1 className="display-1">{course.name}</h1>
+      <p>{JSON.stringify(course, null, 2)}</p>
       <b>Sections</b>
-      <p>{JSON.stringify(sections, null, 2)}</p>
+      <Sections sections={sections} />
     </div>
   );
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const _id = context.params?.professorId;
+  const _id = context.params?.courseId;
   console.log(_id);
   if (!_id) {
     return { notFound: true };
   }
   const db = await getDb();
 
-  const professorRes = (await db
-    .collection("professors")
-    .findOne({ _id })) as any;
+  const courseRes = (await db.collection("courses").findOne({ _id })) as any;
 
-  if (!professorRes) return { notFound: true };
-  delete professorRes.sections;
+  if (!courseRes) return { notFound: true };
+  delete courseRes.sections;
 
-  const professor = professorRes as Professor;
+  const course = courseRes as Course;
 
   const sectionsRes = (await db
     .collection("sections")
-    .find({ professorId: _id })
+    .find({ courseId: _id })
     .toArray()) as any[];
 
   if (!sectionsRes) return { notFound: true };
@@ -53,6 +52,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   const sections = sectionsRes as Section[];
 
-  return { props: { professor, sections } };
+  return { props: { course, sections } };
 };
-export default Professor;
+export default Course;

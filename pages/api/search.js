@@ -16,7 +16,7 @@ handler.post(async (req, res) => {
     .aggregate([
       {
         $search: {
-          index: "default",
+          index: "search-index",
           text: {
             query: text,
             fuzzy: {},

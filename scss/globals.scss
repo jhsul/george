@@ -75,13 +75,28 @@ body {
 
 .suggestions-box {
   z-index: 100;
+  cursor: pointer;
   position: absolute;
   width: 100%;
   top: 36px;
+  left: 1px;
   //border: 1px solid green;
   background-color: white;
 }
 
 .suggestion {
+  padding: 8px;
   border: 1px solid #eaeaea;
+  border-bottom: 0;
+}
+
+.section-container {
+  background-color: white;
+  padding: 20px;
+}
+
+// sldkj
+.questions-container {
+  display: flex;
+  flex-wrap: wrap;
 }
