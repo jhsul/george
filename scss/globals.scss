@@ -2,22 +2,42 @@
 @import "../node_modules/bootstrap/scss/variables";
 
 // OVERWRITE BOOTSTRAP STUFF IN HERE
-hr {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  border: 0;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
+
+$content-bg: white;
+
+.logo-text {
+  //font-size: 40;
+  @extend .lead;
 }
 
 @import "../node_modules/bootstrap/scss/bootstrap";
 html,
 body {
   background-color: #eaeaea;
+  color: black;
+}
+
+// General containers ala javafx
+.hbox {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.vbox {
+  //height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.logo {
+  line-height: 0.4;
+  //border: 1px solid red;
 }
 
 // Navigation bar
 .nav {
-  background-color: white;
+  background-color: $content-bg;
   display: flex;
   justify-content: space-between;
   ///border: 1px solid red;
@@ -48,6 +68,20 @@ body {
   border-radius: 10px;
   flex-direction: column;
   align-items: center;
-  background-color: white;
+  width: fit-content;
+  background-color: $content-bg;
   padding: 50px;
+}
+
+.suggestions-box {
+  z-index: 100;
+  position: absolute;
+  width: 100%;
+  top: 36px;
+  //border: 1px solid green;
+  background-color: white;
+}
+
+.suggestion {
+  border: 1px solid #eaeaea;
 }

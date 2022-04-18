@@ -1,15 +1,15 @@
-export type Professor = {
+export interface Professor {
   _id: string;
   name: string;
-  activeYears: number[];
-};
+  activeYears?: number[];
+}
 
-export type Course = {
+export interface Course {
   _id: string;
   name: string;
-};
+}
 
-export type Section = {
+export interface Section {
   professorId: string;
   professorName: string;
   courseId: string;
@@ -17,10 +17,17 @@ export type Section = {
   term: string;
   sectionType: "Lecture" | "Conference";
   report: Question[];
-};
+}
 
-export type Question = {
+export interface SearchResult {
+  score: number;
+  type: "course" | "professor";
+  _id: string;
+  name: string;
+}
+
+export interface Question {
   questionNumber: number;
   responses: number[5];
-  n: number;
-};
+  //n: number;
+}

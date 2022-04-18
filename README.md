@@ -8,22 +8,3 @@ GEORGE - _Gompei's Eternal hub for Online Reports, Grades, Et cetera_ - is a rec
 This repository also includes a [jupyter notebook](/analysis/george.ipynb) containing a more in-depth explatory analysis of the course report data.
 
 **GEORGE exists because WPI students' access to course report data should not be limited in any way by a professor.**
-
-# How it Works
-
-GEORGE is basically a static site whose build system consists of the following steps:
-
-1. A crawler scrapes all relevant info from oscar.wpi.edu. This includes both DOM elements from the site HTML and direct calls to the OSCAR API.
-2. This data is restructured and stored in a MongoDB database.
-3. The frontend is generated using [Next.js static site generation (SSG)](https://nextjs.org/docs/basic-features/data-fetching/get-static-props)
-4. The static site is served with GitHub Pages
-
-<p align="center">
-<img src="public/pipeline.png"/>
-</p>
-
-<p align="center">
-<i>Figure 1: GEORGE build pipeline</i>
-</p>
-
-Notice that since the site is 100% statically generated, there is no API for loading course report data. If you are interested in getting access to this data, email me.

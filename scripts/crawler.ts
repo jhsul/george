@@ -18,10 +18,13 @@ const YEARS = [2018, 2019, 2020, 2021];
 
 const mongoClient = new MongoClient(process.env.MONGO_URI!);
 await mongoClient.connect();
-const db = mongoClient.db("george");
+const db = mongoClient.db("george-beta");
 console.log("Connected to Mongo :)");
 
 let decrypt: (data: string) => void;
+
+// For professors who already exist
+const duplicateProfessorIds: { [key: string]: string } = {};
 
 const main = async () => {
   console.log("Clearing database");
@@ -45,7 +48,8 @@ const main = async () => {
 
     await getYearData(year);
   }
-  console.log("Finished");
+  console.log(duplicateProfessorIds);
+  console.log("Finished 😀");
 };
 
 const clearDb = async () => {
@@ -90,7 +94,7 @@ const parseReportQuestion = (data: number[]) => {
   return {
     questionNumber: data[0],
     responses: data.slice(1, 6),
-    n: data[7],
+    //n: data[7],
   };
 };
 
@@ -176,12 +180,45 @@ const getProfessor = async (
   professorName: string,
   year: number
 ) => {
+  //let professorObjectId = new ObjectId(professorId);
+
+  let actualProfessorId = professorId;
+  const duplicateId = (
+    await db.collection("professors").findOne({ _name: professorName })
+  )?._id.toString();
+
+  if (duplicateId) {
+    console.log(`${professorName} already exists`);
+    console.log(duplicateId, professorId);
+    if (duplicateId === professorId) {
+      console.log("ASSIGNING DUPLICATE ID");
+      console.log(professorId, duplicateId);
+
+      duplicateProfessorIds[professorId] = duplicateId;
+      console.log(duplicateProfessorIds);
+      actualProfessorId = duplicateId;
+    }
+  }
+
   // Upload basic info to mongo
   await db.collection("professors").updateOne(
-    { _id: professorId },
+    { _id: actualProfessorId },
     {
-      $set: { _id: professorId, name: professorName },
+      $set: { _id: actualProfessorId, name: professorName },
       $push: { activeYears: year },
+    },
+    { upsert: true }
+  );
+
+  // ADD SEARCH TERM
+  await db.collection("search-terms").updateOne(
+    { _id: actualProfessorId },
+    {
+      $set: {
+        _id: actualProfessorId,
+        name: professorName,
+        type: "professor",
+      },
     },
     { upsert: true }
   );
@@ -234,7 +271,7 @@ const getCourses = async (dom: JSDOM, year: number): Promise<void> => {
     if (!courseId || courseId === "0") continue;
 
     await getCourse(courseId, courseName, year);
-    await sleep(100); // pls dont crash
+    //await sleep(100); // pls dont crash
   }
 };
 
@@ -264,11 +301,22 @@ const getCourse = async (
   //console.log(text);
 
   // Add basic info to mongo
+
+  //const courseObjectId = new ObjectId(courseId);
   await db
     .collection("courses")
     .updateOne(
       { _id: courseId },
       { $set: { name: courseName } },
+      { upsert: true }
+    );
+
+  // search term
+  await db
+    .collection("search-terms")
+    .updateOne(
+      { _id: courseId },
+      { $set: { name: courseName, type: "course" } },
       { upsert: true }
     );
 
@@ -307,7 +355,13 @@ const getSection = async (
   courseId: string,
   term: string
 ) => {
-  console.log(`Getting section for ${courseId} with ${professorName}`);
+  console.log(
+    `Getting section for ${courseId} with ${professorName} (${professorId})`
+  );
+
+  const actualProfessorId = duplicateProfessorIds[professorId] || professorId;
+
+  console.log("Actual professor ID: " + actualProfessorId);
 
   const url = encodeURI(
     `https://oscar.wpi.edu/cgi-bin/oscar/1.3/byPandC.cgi?pidm_id=${professorId}&courseNumber=${courseId}&term=${term}`
@@ -326,9 +380,10 @@ const getSection = async (
   const cleanData = decrypt(data!);
 
   //console.log(cleanData);
+  //const courseObjectId = new ObjectId(courseId);
 
   const sectionRes = await db.collection("sections").insertOne({
-    professorId,
+    professorId: actualProfessorId,
     professorName,
     courseId,
     courseName,
@@ -347,7 +402,7 @@ const getSection = async (
   );
 
   await db.collection("professors").updateOne(
-    { _id: professorId },
+    { _id: actualProfessorId },
     {
       $push: { sections: sectionId },
     }
