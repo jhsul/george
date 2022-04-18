@@ -7,7 +7,7 @@
     "predeploy": "npm run build",
     "server": "tsc && nodemon build/scripts/server.js",
     "crawl": "tsc && node build/scripts/crawler.js",
-    "build": "next build && next export",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
