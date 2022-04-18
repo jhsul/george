@@ -13,21 +13,15 @@ interface ProfessorPageProps {
   sections: Section[];
 }
 
-const Professor: NextPage<ProfessorPageProps> = ({ professor, sections }) => {
+const Professor: NextPage = () => {
   return (
     <div>
-      <h1 className="display-1">{professor.name}</h1>
-      <p>
-        <b>Active years: </b>
-        {professor.activeYears}
-      </p>
-      {sections.map((section, idx) => (
-        <SectionComponent key={idx} section={section} />
-      ))}
+      <h1 className="display-1">{"klj"}</h1>
     </div>
   );
 };
 
+/*
 export const getStaticProps: GetStaticProps = async (context) => {
   console.log(context);
   const { professorId } = context.params!;
@@ -62,5 +56,5 @@ export const getStaticPaths: GetStaticPaths<ProfessorParams> = async () => {
     fallback: false,
   };
 };
-
+*/
 export default Professor;

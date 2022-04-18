@@ -27,10 +27,6 @@ const Home: NextPage<HomeProps> = ({ professors, courses }) => {
 
   useEffect(() => {
     console.log("Loaded frontpage 😀");
-
-    console.table(searchResults);
-    //console.table(_.sampleSize(professors, 5));
-    //console.table(_.sampleSize(courses, 5));
   }, []);
 
   const onSearchChange: ChangeEventHandler = async (
@@ -69,7 +65,7 @@ const Home: NextPage<HomeProps> = ({ professors, courses }) => {
             <div className="vbox logo">
               <div style={{ flex: 1 }}></div>
               <p className="logo-text">
-                <b>G</b>ompei's
+                <b>G</b>ompei&aposs
               </p>
               <p className="logo-text">
                 <b>E</b>ternal
