@@ -1,4 +1,5 @@
-import { GridFSBucket, MongoClient } from "mongodb";
+//@ts-nocheck
+import { MongoClient } from "mongodb";
 
 global.mongo = global.mongo || {};
 

@@ -3,10 +3,11 @@
     "target": "esnext",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
+    "checkJs": false,
     "skipLibCheck": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "noEmit": false,
+    "noEmit": true,
     "outDir": "build",
     "esModuleInterop": true,
     "module": "esnext",
@@ -20,8 +21,8 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "pages/api/search.js",
-    "middlewares/db.js"
+    "pages/api/search.ts",
+    "middlewares/db.ts"
   ],
   "exclude": ["node_modules"]
 }
