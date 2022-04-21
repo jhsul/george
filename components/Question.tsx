@@ -4,6 +4,7 @@ import {
   BarElement,
   CategoryScale,
   Chart as ChartJS,
+  ChartData,
   Legend,
   LinearScale,
   Title,
@@ -50,26 +51,26 @@ const QUESTION_TEXTS: { [key: number]: string } = {
 const QuestionComponent: FunctionComponent<QuestionProps> = ({ question }) => {
   const options = {
     responsive: true,
-    plugins: {
-      legend: {
-        position: "top" as const,
-      },
-      title: {
-        display: true,
-        text: QUESTION_TEXTS[question.questionNumber],
-      },
-    },
+    plugins: { legend: { display: false } },
   };
 
-  const labels = [0, 1, 2, 3, 4];
+  const labels =
+    question.questionNumber === 18
+      ? ["A", "B", "C", "NR", "Not sure"]
+      : [1, 2, 3, 4, 5];
 
   const data = {
     labels,
     datasets: [{ label: "Student responses", data: question.responses }],
   };
+
   return (
-    <div>
-      <Bar options={options} data={data} />
+    <div className="question">
+      <p>{QUESTION_TEXTS[question.questionNumber]}</p>
+      <Bar
+        options={options}
+        data={data as ChartData<"bar", number[], unknown>}
+      />
     </div>
   );
 };

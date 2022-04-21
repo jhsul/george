@@ -5,8 +5,10 @@ import {
   NextPage,
 } from "next";
 import { ParsedUrlQuery } from "querystring";
+import { useEffect } from "react";
+import Page from "../../components/Page";
 import SectionComponent from "../../components/Section";
-import Sections from "../../components/Sections";
+import SectionGroup from "../../components/SectionGroup";
 import { Course, Professor, Section } from "../../types/main";
 import { getDb } from "../../util/db";
 
@@ -16,19 +18,21 @@ interface CoursePageProps {
 }
 
 const Course: NextPage<CoursePageProps> = ({ course, sections }) => {
+  useEffect(() => {
+    console.log(`Loaded ${course.name} 📚`);
+  }, []);
   return (
-    <div>
-      <h1 className="display-1">{course.name}</h1>
-      <p>{JSON.stringify(course, null, 2)}</p>
-      <b>Sections</b>
-      <Sections sections={sections} />
-    </div>
+    <Page title={course.name}>
+      <p>{course._id} has been taught _ times by _ different professors</p>
+      <h6>Sections</h6>
+      <SectionGroup sections={sections} groupBy="professors" />
+    </Page>
   );
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const _id = context.params?.courseId;
-  console.log(_id);
+
   if (!_id) {
     return { notFound: true };
   }

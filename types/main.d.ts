@@ -19,6 +19,10 @@ export interface Section {
   report: Question[];
 }
 
+export interface AggregatedSection {
+  groupBy: "course" | "professor";
+}
+
 export interface SearchResult {
   score: number;
   type: "course" | "professor";
