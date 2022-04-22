@@ -32,19 +32,20 @@ body {
 
 .page-container {
   @extend .hbox;
-  background-color: white;
+  background-color: #eaeaea;
 }
 
 .page {
   max-width: 100%;
   width: 1000px;
   background-color: white;
-  border: 1px solid red;
+  //border: 1px solid red;
   padding: 30px;
 }
 
 .logo {
   line-height: 0.4;
+  flex-shrink: 0;
   //border: 1px solid red;
 }
 
