@@ -5,18 +5,16 @@ import React, { FunctionComponent } from "react";
 interface PageProps {
   title: string;
 }
-const Page: FunctionComponent<PageProps> = (
-  props: React.PropsWithChildren<PageProps>
-) => {
+const Page: FunctionComponent<PageProps> = ({ title, children }) => {
   const router = useRouter();
   return (
     <div className="page-container">
       <div style={{ flex: 1 }}></div>
       <div className="page">
         <Link href="/">Home</Link>
-        <h1>{props.title}</h1>
+        <h1>{title}</h1>
         <hr />
-        <div>{props.children}</div>
+        <div>{children}</div>
       </div>
       <div style={{ flex: 1 }}></div>
     </div>

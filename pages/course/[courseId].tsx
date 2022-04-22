@@ -8,9 +8,13 @@ import { ParsedUrlQuery } from "querystring";
 import { useEffect } from "react";
 import Page from "../../components/Page";
 import SectionComponent from "../../components/Section";
-import SectionGroup from "../../components/SectionGroup";
 import { Course, Professor, Section } from "../../types/main";
 import { getDb } from "../../util/db";
+import { v4 as uuidv4 } from "uuid";
+
+import { Tabs, TabList, Tab, TabPanel } from "react-tabs";
+import GradeChart from "../../components/GradeChart";
+import { courseGetSectionTitle } from "../../util/data";
 
 interface CoursePageProps {
   course: Course;
@@ -24,8 +28,22 @@ const Course: NextPage<CoursePageProps> = ({ course, sections }) => {
   return (
     <Page title={course.name}>
       <p>{course._id} has been taught _ times by _ different professors</p>
-      <h6>Sections</h6>
-      <SectionGroup sections={sections} groupBy="professors" />
+      <h6>Average Grade by Professor</h6>
+      <GradeChart sections={sections} />
+      <h6>Full Course History</h6>
+      <Tabs>
+        <TabList>
+          {sections.map((s) => (
+            <Tab key={uuidv4()}>{courseGetSectionTitle(s)}</Tab>
+          ))}
+        </TabList>
+
+        {sections.map((s) => (
+          <TabPanel key={uuidv4()}>
+            <SectionComponent section={s} />
+          </TabPanel>
+        ))}
+      </Tabs>
     </Page>
   );
 };

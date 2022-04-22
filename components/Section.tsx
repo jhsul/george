@@ -1,8 +1,10 @@
+import Link from "next/link";
 import { FunctionComponent } from "react";
 import { Section } from "../types/main";
 import { QUESTION_CATEGORIES } from "../util/data";
+import Collapsible from "./Collapsible";
+import Question from "./Question";
 import QuestionComponent from "./Question";
-import QuestionCategory from "./QuestionCategory";
 
 interface SectionProps {
   section: Section;
@@ -13,11 +15,15 @@ const SectionComponent: FunctionComponent<SectionProps> = ({ section }) => {
     <div className="section-container">
       <div style={{ lineHeight: "80%" }}>
         <p>
-          <b>Course:</b> {section.courseName}
+          <b>Course:</b>{" "}
+          <Link href={`/course/${section.courseId}`}>{section.courseName}</Link>
         </p>
 
-        <p className="">
-          <b>Professor:</b> {section.professorName}
+        <p>
+          <b>Professor:</b>{" "}
+          <Link href={`/professor/${section.professorId}`}>
+            {section.professorName}
+          </Link>
         </p>
         <p className="">
           <b>Term:</b> {section.term}
@@ -29,13 +35,13 @@ const SectionComponent: FunctionComponent<SectionProps> = ({ section }) => {
 
       {/* This is fucked */}
       {Object.keys(QUESTION_CATEGORIES).map((s) => (
-        <QuestionCategory
-          key={s}
-          category={s}
-          questions={section.report.filter((q) =>
-            QUESTION_CATEGORIES[s].includes(q.questionNumber)
-          )}
-        />
+        <Collapsible key={s} title={s}>
+          {section.report
+            .filter((q) => QUESTION_CATEGORIES[s].includes(q.questionNumber))
+            .map((q) => (
+              <Question key={q.questionNumber} question={q} />
+            ))}
+        </Collapsible>
       ))}
     </div>
   );

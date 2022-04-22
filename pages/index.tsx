@@ -60,7 +60,7 @@ const Home: NextPage<HomeProps> = ({ professors, courses }) => {
         <div className="search">
           <p className="lead">Browse WPI student course reports</p>
           <div className="hbox mb-4">
-            <Image src={wpiLogo} className="mr-auto" />
+            <Image src={wpiLogo} className="mr-auto" style={{ flex: 1 }} />
             <div className="vr mx-4 "></div>
             <div className="vbox logo">
               <div style={{ flex: 1 }}></div>

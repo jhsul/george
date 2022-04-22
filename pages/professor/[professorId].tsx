@@ -5,9 +5,16 @@ import {
   NextPage,
 } from "next";
 import { ParsedUrlQuery } from "querystring";
+import { Tabs, TabList, Tab, TabPanel } from "react-tabs";
+import Page from "../../components/Page";
 import SectionComponent from "../../components/Section";
 import { Professor, Section } from "../../types/main";
+import {
+  courseGetSectionTitle,
+  professorGetSectionTitle,
+} from "../../util/data";
 import { getDb } from "../../util/db";
+import { v4 as uuidv4 } from "uuid";
 
 interface ProfessorPageProps {
   professor: Professor;
@@ -16,12 +23,22 @@ interface ProfessorPageProps {
 
 const Professor: NextPage<ProfessorPageProps> = ({ professor, sections }) => {
   return (
-    <div>
-      <h1 className="display-1">{professor.name}</h1>
-      <p>{JSON.stringify(professor, null, 2)}</p>
-      <b>Sections</b>
-      <p>{JSON.stringify(sections, null, 2)}</p>
-    </div>
+    <Page title={professor.name}>
+      <h6>Full Professor History</h6>
+      <Tabs>
+        <TabList>
+          {sections.map((s) => (
+            <Tab key={uuidv4()}>{professorGetSectionTitle(s)}</Tab>
+          ))}
+        </TabList>
+
+        {sections.map((s) => (
+          <TabPanel key={uuidv4()}>
+            <SectionComponent section={s} />
+          </TabPanel>
+        ))}
+      </Tabs>
+    </Page>
   );
 };
 
