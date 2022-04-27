@@ -21,9 +21,23 @@ interface ProfessorPageProps {
   sections: Section[];
 }
 
+const courseCount = (sections: Section[]) => {
+  const courseList: string[] = [];
+  for (const section of sections) {
+    if (!courseList.includes(section.courseId)) {
+      courseList.push(section.courseId);
+    }
+  }
+  return courseList.length;
+};
+
 const Professor: NextPage<ProfessorPageProps> = ({ professor, sections }) => {
   return (
     <Page title={professor.name}>
+      <p>
+        Professor {professor.name} has taught {sections.length} sections of{" "}
+        {courseCount(sections)} different courses
+      </p>
       <h6>Full Professor History</h6>
       <Tabs>
         <TabList>

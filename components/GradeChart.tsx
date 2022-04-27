@@ -2,7 +2,11 @@ import { ChartData } from "chart.js";
 import { FunctionComponent } from "react";
 import { Bar, Chart, Line } from "react-chartjs-2";
 import { Section } from "../types/main";
-import { getCourseLineChart, getGradesByProfessor } from "../util/data";
+import {
+  getCourseLineChart,
+  getGradesByProfessor,
+  numberToTerm,
+} from "../util/data";
 
 interface GradeChartProps {
   sections: Section[];
@@ -15,6 +19,15 @@ const GradeChart: FunctionComponent<GradeChartProps> = ({ sections }) => {
     responsive: true,
     //plugins: { legend: { display: false } },
     scales: {
+      x: {
+        type: "linear",
+        ticks: {
+          stepSize: 0.25,
+          callback: (value: number, index: number, ticks: number) => {
+            return numberToTerm(value);
+          },
+        },
+      },
       y: {
         min: 0,
         max: 3,

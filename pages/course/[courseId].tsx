@@ -4,7 +4,6 @@ import {
   GetStaticProps,
   NextPage,
 } from "next";
-import { ParsedUrlQuery } from "querystring";
 import { useEffect } from "react";
 import Page from "../../components/Page";
 import SectionComponent from "../../components/Section";
@@ -21,13 +20,26 @@ interface CoursePageProps {
   sections: Section[];
 }
 
+const professorCount = (sections: Section[]) => {
+  const professorList: string[] = [];
+  for (const section of sections) {
+    if (!professorList.includes(section.professorId)) {
+      professorList.push(section.professorId);
+    }
+  }
+  return professorList.length;
+};
+
 const Course: NextPage<CoursePageProps> = ({ course, sections }) => {
   useEffect(() => {
     console.log(`Loaded ${course.name} 📚`);
   }, []);
   return (
     <Page title={course.name}>
-      <p>{course._id} has been taught _ times by _ different professors</p>
+      <p>
+        {course._id} has been taught {sections.length} times by{" "}
+        {professorCount(sections)} different professors
+      </p>
       <h6>Average Grade by Professor</h6>
       <GradeChart sections={sections} />
       <h6>Full Course History</h6>

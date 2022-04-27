@@ -60,7 +60,11 @@ const Home: NextPage<HomeProps> = ({ professors, courses }) => {
         <div className="search">
           <p className="lead">Browse WPI student course reports</p>
           <div className="hbox mb-4">
-            <Image src={wpiLogo} className="mr-auto" style={{ flex: 1 }} />
+            <Image
+              src={wpiLogo}
+              className="mr-auto"
+              style={{ flex: 1, aspectRatio: "1" }}
+            />
             <div className="vr mx-4 "></div>
             <div className="vbox logo">
               <div style={{ flex: 1 }}></div>
@@ -103,7 +107,7 @@ const Home: NextPage<HomeProps> = ({ professors, courses }) => {
           </div>
 
           <a href="https://github.com/jhsul/george">
-            view the source on github
+            view the source on github{" "}
           </a>
         </div>
       </div>

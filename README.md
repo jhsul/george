@@ -6,3 +6,11 @@ GEORGE - _Gompei's Eternal hub for Online Reports, Grades, Et cetera_ - is a rec
 This repository also includes a [jupyter notebook](/analysis/george.ipynb) containing a more in-depth explatory analysis of the course report data.
 
 **GEORGE exists because WPI students' access to course report data should not be limited in any way by a professor.**
+
+## What's in this repository
+
+There are three main programs in this repo:
+
+1. The crawler program for scraping the OSCAR website/API
+2. An exploratory data analysis of the course reports
+3. A webapp for serving the course data which includes a search API

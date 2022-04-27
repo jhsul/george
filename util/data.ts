@@ -5,13 +5,23 @@ export const COLOR_PALETTE = [
   "#ff8c8cA0",
   "#61d465A0",
   "#cc5dd9A0",
+  "#ff9e66A0",
+  "#ff9e66A0",
 ];
 
+/*
 export const QUESTION_CATEGORIES: { [key: string]: number[] } = {
   "Estimated Grade": [18],
-  "Course Quality": [1, 2, 3, 4, 5, 6],
+  "Course Quality": [0, 1, 2, 3, 4, 5],
   "Course Difficulty": [7, 8, 9, 10, 11, 19],
   "Instructor Quality": [12, 13, 14, 15, 16],
+};
+*/
+export const QUESTION_CATEGORIES: { [key: string]: number[] } = {
+  "Estimated Grade": [18],
+  "Course Quality": [1, 2, 3, 7, 16],
+  "Course Difficulty": [8, 11, 19],
+  "Instructor Quality": [4, 5, 6, 9, 10, 12, 13, 14, 15, 17],
 };
 
 export const QUESTION_TEXTS: { [key: number]: string } = {
@@ -34,6 +44,45 @@ export const QUESTION_TEXTS: { [key: number]: string } = {
   17: "My grades were determined in a fair and impartial manner.",
   18: "What grade do you think you will receive in this course?",
   19: "On average, what were the total hours spent in each 7-day week OUTSIDE of formally scheduled class time in work related to this course (including studying, reading, writing, homework, rehearsal, etc.)?",
+};
+const termToNumber = (term: string) => {
+  const year = parseInt(term.substring(0, 4));
+  const termChar = term.charAt(term.length - 1);
+
+  const termFrac =
+    termChar === "A"
+      ? 0.0
+      : termChar === "B"
+      ? 0.25
+      : termChar === "C"
+      ? 0.5
+      : termChar === "D"
+      ? 0.75
+      : NaN;
+  if (termFrac === NaN) {
+    console.error(`Bad term: ${term}`);
+    return 0;
+  }
+  console.log(year + termFrac);
+  return year + termFrac;
+};
+
+export const numberToTerm = (termNumber: number) => {
+  const year = Math.floor(termNumber).toString();
+  const termFrac = termNumber - Math.floor(termNumber);
+
+  const termChar =
+    termFrac === 0.0
+      ? "A"
+      : termFrac === 0.25
+      ? "B"
+      : termFrac === 0.5
+      ? "C"
+      : termFrac === 0.75
+      ? "D"
+      : "IDK";
+
+  return `${year} ${termChar}`;
 };
 
 // IF A PROFESSOR TAUGHT THE SAME CLASS TWICE IN THE SAME TERM, THIS GETS FUCKED
@@ -62,11 +111,13 @@ export const getCourseLineChart = (sections: Section[]) => {
       label: k,
       borderColor: COLOR_PALETTE[i % COLOR_PALETTE.length],
       backgroundColor: COLOR_PALETTE[i % COLOR_PALETTE.length],
-      data: p.map((v) => ({ x: v.term, y: v.avg })),
+      data: p.map((v) => ({ x: termToNumber(v.term), y: v.avg })),
     };
   });
 
   console.log(datasets);
+
+  //console.log(datasets);
   const data = { datasets };
   return data;
 };
