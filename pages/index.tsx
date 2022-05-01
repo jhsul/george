@@ -92,7 +92,7 @@ const Home: NextPage<HomeProps> = ({ professors, courses }) => {
         </div>
         <p>
           Search professors/courses or view the{" "}
-          <Link href="/dashboard">Dashboard</Link>
+          <Link href="/dashboard">dashboard</Link>
         </p>
         <div className="input-group" style={{ position: "relative" }}>
           <input

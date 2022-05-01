@@ -1,4 +1,4 @@
-import { GetServerSideProps, NextPage } from "next";
+import { GetServerSideProps, GetStaticProps, NextPage } from "next";
 import { useCallback, useEffect, useRef, useState } from "react";
 import ReactTooltip from "react-tooltip";
 import Page from "../components/Page";
@@ -125,7 +125,7 @@ const Dashboard: NextPage<DashboardProps> = ({
                 */
 
 // REPLACE WITH STATIC PROPS EVENTUALLY!!!!!!!!!!
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getStaticProps: GetStaticProps = async (context) => {
   const db = await getDb();
   const sections = (await db
     .collection("sections")
