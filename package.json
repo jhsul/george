@@ -28,6 +28,7 @@
     "react-chartjs-2": "^4.1.0",
     "react-dom": "18.0.0",
     "react-tabs": "^5.1.0",
+    "react-tooltip": "^4.2.21",
     "sass": "^1.49.11",
     "uuid": "^8.3.2"
   },

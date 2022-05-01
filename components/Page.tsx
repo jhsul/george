@@ -11,7 +11,11 @@ const Page: FunctionComponent<PageProps> = ({ title, children }) => {
     <div className="page-container">
       <div style={{ flex: 1 }}></div>
       <div className="page">
-        <Link href="/">Home</Link>
+        <div className="hbox">
+          <Link href="/">Home</Link>
+          <div className="mx-1"></div>
+          <Link href="/dashboard">Dashboard</Link>
+        </div>
         <h1>{title}</h1>
         <hr />
         <div>{children}</div>

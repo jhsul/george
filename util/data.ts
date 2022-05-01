@@ -1,4 +1,4 @@
-import { Dataset, Question, Section } from "../types/main";
+import { Course, Dataset, Question, Section } from "../types/main";
 
 export const COLOR_PALETTE = [
   "#a1cef7A0",
@@ -84,6 +84,64 @@ export const numberToTerm = (termNumber: number) => {
 
   return `${year} ${termChar}`;
 };
+
+/*
+This function is super redundant and fucked but i dont care anymore
+*/
+export const getAggregatedCourses = (sections: Section[]): Course[] => {
+  const courseDict: { [key: string]: any } = {};
+  for (const section of sections) {
+    // Set up base course object if it doesn't already exist
+    if (!courseDict[section.courseId]) {
+      courseDict[section.courseId] = {
+        _id: section.courseId,
+        name: section.courseName,
+        categories: {},
+        aggregatedData: {},
+        aggregatedDataN: Infinity,
+        aggregatedSections: 0,
+      };
+    }
+    courseDict[section.courseId].aggregatedSections++;
+    // For each category, add the responses
+    for (const category of Object.keys(QUESTION_CATEGORIES)) {
+      // If the category doesn't already exist, initialize an array of 5 numbers
+      if (!courseDict[section.courseId].categories[category]) {
+        courseDict[section.courseId].categories[category] = [0, 0, 0, 0, 0];
+      }
+
+      for (const questionNumber of QUESTION_CATEGORIES[category]) {
+        const sectionData = section.report[questionNumber - 1].responses;
+        for (let i = 0; i < 5; i++) {
+          courseDict[section.courseId].categories[category][i] +=
+            sectionData[i];
+        }
+      }
+    }
+  }
+
+  // Now get the average value of each category
+  for (const courseId in courseDict) {
+    for (const category in QUESTION_CATEGORIES) {
+      const totalScore = courseDict[courseId].categories[category].reduce(
+        (a: number, b: number, i: number) => a + b * (i + 1) // INDEX 0 = SCORE 1
+      );
+      const totalResponses = courseDict[courseId].categories[category].reduce(
+        (a: number, b: number, i: number) => a + b // Just count the responses
+      );
+
+      // Use the lowest amount of responses to a quesion as the N
+      courseDict[courseId].aggregatedDataN = Math.min(
+        totalResponses,
+        courseDict[courseId].aggregatedDataN
+      );
+
+      courseDict[courseId].aggregatedData[category] =
+        totalScore / totalResponses;
+    }
+  }
+  return Object.keys(courseDict).map((k) => courseDict[k] as Course);
+}; //getAggregatedCourses
 
 // IF A PROFESSOR TAUGHT THE SAME CLASS TWICE IN THE SAME TERM, THIS GETS FUCKED
 export const getCourseLineChart = (sections: Section[]) => {

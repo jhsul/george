@@ -9,6 +9,11 @@ export interface Professor {
 export interface Course {
   _id: string;
   name: string;
+
+  // Use this for each question category
+  aggregatedData?: { [key: string]: number };
+  aggregatedDataN?: number;
+  aggregatedSections?: number;
 }
 
 export interface Section {

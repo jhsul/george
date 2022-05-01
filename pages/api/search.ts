@@ -1,18 +1,19 @@
 //@ts-nocheck
 import nc from "next-connect";
-import { db } from "../../middlewares/db";
+import { getDb } from "../../util/db";
 
 const handler = nc();
 
-handler.use(db);
+//handler.use(db);
 
 handler.post(async (req, res) => {
+  const db = await getDb();
   const { text } = req.body;
   if (!text) {
     res.status(400).end();
     return;
   }
-  const results = await req.db
+  const results = await db
     .collection("search-terms")
     .aggregate([
       {
