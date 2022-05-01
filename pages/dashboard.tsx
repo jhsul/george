@@ -66,7 +66,7 @@ const Dashboard: NextPage<DashboardProps> = ({
           </select>
         </div>
         <div>
-          Filter by:{" "}
+          Sort by:{" "}
           <select
             className="form-select"
             onChange={(e) => setFilterBy(e.currentTarget.value)}
