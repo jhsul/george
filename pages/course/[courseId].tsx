@@ -60,9 +60,25 @@ const Course: NextPage<CoursePageProps> = ({ course, sections }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const _id = context.params?.courseId;
+export const getStaticPaths: GetStaticPaths = async () => {
+  const db = await getDb();
 
+  const courses = await db.collection("courses").find({}).toArray();
+  const paths = courses.map((p) => ({
+    params: {
+      courseId: p._id.toString(),
+    },
+  }));
+
+  return {
+    paths,
+    fallback: false,
+  };
+};
+
+export const getStaticProps: GetStaticProps = async (context) => {
+  const _id = context.params?.courseId;
+  console.log(`Statically generating course page ${_id}`);
   if (!_id) {
     return { notFound: true };
   }

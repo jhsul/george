@@ -56,9 +56,26 @@ const Professor: NextPage<ProfessorPageProps> = ({ professor, sections }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getStaticPaths: GetStaticPaths = async () => {
+  const db = await getDb();
+
+  const professors = await db.collection("professors").find({}).toArray();
+  const paths = professors.map((p) => ({
+    params: {
+      professorId: p._id.toString(),
+    },
+  }));
+
+  return {
+    paths,
+    fallback: false,
+  };
+};
+
+export const getStaticProps: GetStaticProps = async (context) => {
   const _id = context.params?.professorId;
-  console.log(_id);
+  //console.log(_id);
+  console.log(`Statically generating professor page ${_id}`);
   if (!_id) {
     return { notFound: true };
   }

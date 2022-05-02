@@ -1,4 +1,5 @@
 import { GetServerSideProps, GetStaticProps, NextPage } from "next";
+import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import ReactTooltip from "react-tooltip";
 import Page from "../components/Page";
@@ -100,8 +101,12 @@ const Dashboard: NextPage<DashboardProps> = ({
           <tbody>
             {courses.map((c) => (
               <tr key={c._id}>
-                <td>{c._id}</td>
-                <td>{c.name}</td>
+                <td>
+                  <Link href={`/course/${c._id}`}>{c._id}</Link>
+                </td>
+                <td>
+                  <Link href={`/course/${c._id}`}>{c.name}</Link>
+                </td>
                 <td>{c.aggregatedSections}</td>
                 {Object.keys(QUESTION_CATEGORIES).map((q) => {
                   const tdValue = c.aggregatedData
